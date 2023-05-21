@@ -35,8 +35,7 @@ def registerUser(request):
     if request.method=="POST":
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
-            new_user=user_form.cleaned_data
-            new_user.save(commit=False)
+            new_user=user_form.save(commit=False)
 
             new_user.set_password(
                 user_form.cleaned_data['password']
