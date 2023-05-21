@@ -28,4 +28,5 @@ def user_login(request):
     return render(request,'accounts/login.html',context)
 
 
-
+def dashboard(request):
+    return render(request,'accounts/dashboard.html')
