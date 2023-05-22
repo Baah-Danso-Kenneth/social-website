@@ -4,6 +4,9 @@ from django.shortcuts import render, redirect
 from .forms import LoginForm, UserRegistrationForm
 from django.http import HttpResponse
 
+from .models import Profile
+
+
 def user_login(request):
     if request.method=='POST':
         form = LoginForm(request.POST)
@@ -41,6 +44,7 @@ def registerUser(request):
                 user_form.cleaned_data['password']
             )
             new_user.save()
+            Profile.objects.create(user=new_user)
             return render(request, 'accounts/register_done.html',{'new_user':new_user})
     else:
         user_form=UserRegistrationForm()
