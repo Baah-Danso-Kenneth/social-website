@@ -3,9 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from django.http import HttpResponse
-
 from .models import Profile
-
+from django.contrib import messages
 
 def user_login(request):
     if request.method=='POST':
@@ -32,7 +31,7 @@ def user_login(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('/accounts/login/')
+    return redirect('/account/login/')
 
 def registerUser(request):
     if request.method=="POST":
@@ -62,6 +61,9 @@ def edit(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            messages.success(request, 'Profile updated Successfully')
+        else:
+            messages.error(request, 'Error updating your profile')
     else:
         user_form=UserEditForm(instance=request.user)
         profile_form=ProfileEditForm(instance=request.user.profile)
@@ -69,4 +71,3 @@ def edit(request):
 
     return render(request,'accounts/edit.html',context)
 
-    pass
