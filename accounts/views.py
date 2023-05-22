@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import LoginForm, UserRegistrationForm
+from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from django.http import HttpResponse
 
 from .models import Profile
@@ -20,7 +20,7 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request,user)
-                    return redirect('/accounts/dashboard')
+                    return redirect('/account/dashboard')
                 else:
                     return HttpResponse('Disabled accounts')
             else:
@@ -53,3 +53,20 @@ def registerUser(request):
 @login_required(login_url='/accounts/login/')
 def dashboard(request):
     return render(request,'accounts/dashboard.html',{'section':'dashboard'})
+@login_required
+def edit(request):
+    if request.method=='POST':
+        user_form = UserEditForm(instance=request.user, data=request.POST)
+        profile_form = ProfileEditForm(instance=request.user.profile, data=request.POST, files=request.FILES )
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+    else:
+        user_form=UserEditForm(instance=request.user)
+        profile_form=ProfileEditForm(instance=request.user.profile)
+    context={'user_form':user_form,'profile_form':profile_form}
+
+    return render(request,'accounts/edit.html',context)
+
+    pass
