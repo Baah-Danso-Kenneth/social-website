@@ -70,4 +70,3 @@ def edit(request):
     context={'user_form':user_form,'profile_form':profile_form}
 
     return render(request,'accounts/edit.html',context)
-

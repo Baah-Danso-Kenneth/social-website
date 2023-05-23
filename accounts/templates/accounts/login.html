@@ -2,7 +2,9 @@
 {%block title%}Login Page{%endblock%}
 
 {%block content%}
-<div>
+<div class="login_zone">
+
+    <div>
     <h1>Log-in</h1>
     <form  method="post">
         {{form.as_p}}
@@ -16,8 +18,25 @@
         <p>
        <a href="{% url 'accounts:password_reset' %}">
     Forgotten your password?
-</a>
-</p>
+  </a>
+ </p>
     </form>
 </div>
+
+
+    <div class="social">
+<ul>
+<li class="facebook">
+<a href="{% url 'social:begin' 'facebook' %}">
+Sign in with Facebook
+</a>
+</li>
+</ul>
+</div>
+
+
+</div>
+
+
+
 {%endblock%}
