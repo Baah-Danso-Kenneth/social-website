@@ -21,11 +21,11 @@ class ImageCreationForm(forms.ModelForm):
         return url
 
 
-    def save(self, force_insert=False, commit=True):
+    def save(self, force_insert=False, force_update=False, commit=True):
         image = super().save(commit=False)
-        image_url =self.cleaned_data['url']
+        image_url = self.cleaned_data['url']
         name = slugify(image.title)
-        extension= image_url.rsplit('.', 1)[1].lower()
+        extension = image_url.rsplit('.', 1)[1].lower()
         image_name = f'{name}.{extension}'
 
         response = requests.get(image_url)
